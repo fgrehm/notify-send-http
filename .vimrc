@@ -1,0 +1,1 @@
+set wildignore+=client,server
