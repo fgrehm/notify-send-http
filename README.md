@@ -1,4 +1,4 @@
-notify-send-http
-================
+# notify-send-http
 
-Send notify-send across the network
+Work in progress `notify-send` across the network, useful for triggering notifications
+from local VMs / Containers into your own computer.
