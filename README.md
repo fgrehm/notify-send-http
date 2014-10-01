@@ -7,3 +7,4 @@ from local VMs / Containers into your own computer.
 
 - [ ] Accept summary and body
 - [ ] Accept host using env var
+- [ ] Accept other `notify-send` parameters

@@ -24,7 +24,7 @@ func main() {
 	flag.String("c", "", "")
 	flag.String("t", "", "")
 	flag.String("h", "", "")
-	// https://github.com/guard/guard/blob/19351271941a3362a47176c6808ddcb4a675e3ad/lib/guard/notifiers/notifysend.rb#L15
+	// TODO: https://github.com/guard/guard/blob/19351271941a3362a47176c6808ddcb4a675e3ad/lib/guard/notifiers/notifysend.rb#L15
 	flag.Parse()
 
 	if icon != "" {
