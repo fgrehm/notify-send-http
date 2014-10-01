@@ -31,8 +31,8 @@ func main() {
 		summary := r.Form.Get("summary")
 		body := r.Form.Get("body")
 
-		if summary == "" || body == "" {
-			msg := fmt.Sprintf("Invalid request, both `summary` and `body` needs to be specified (got %+v)", r.Form)
+		if summary == "" {
+			msg := fmt.Sprintf("Invalid request, `summary` has to be specified (got %+v)", r.Form)
 			log.Println(msg)
 			http.Error(w, msg, 500)
 			return

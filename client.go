@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"flag"
+	"fmt"
 	"io"
 	"log"
 	"mime/multipart"
@@ -12,11 +13,13 @@ import (
 	"path/filepath"
 )
 
+var (
+	icon, summary, body = "", "", ""
+)
+
 func main() {
-	summary := "From client"
-	body := "Some long and boring body message to be displayed to the user"
-	icon := ""
 	notificationServer := "http://172.17.42.1:12345"
+	// route -n | awk '/^0.0.0.0/ {print $2}'
 
 	flag.StringVar(&icon, "i", icon, "Path to icon")
 	flag.String("u", "", "")
@@ -26,6 +29,19 @@ func main() {
 	flag.String("h", "", "")
 	// TODO: https://github.com/guard/guard/blob/19351271941a3362a47176c6808ddcb4a675e3ad/lib/guard/notifiers/notifysend.rb#L15
 	flag.Parse()
+
+	args := flag.Args()
+	argsLength := len(args)
+
+	if argsLength > 2 || argsLength < 1 {
+		fmt.Println("Invalid number of options")
+		os.Exit(1)
+	}
+
+	summary = args[0]
+	if argsLength == 2 {
+		body = args[1]
+	}
 
 	if icon != "" {
 		notification := map[string]string{
