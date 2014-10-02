@@ -11,6 +11,7 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 var (
@@ -21,6 +22,18 @@ func main() {
 	notificationServer := "http://172.17.42.1:12345"
 	// route -n | awk '/^0.0.0.0/ {print $2}'
 
+	// This is required because the Guard notifier sends custom parameters at the end of the command,
+	// so here we need to reorganize things
+	args := []string{}
+	for index, arg := range os.Args {
+		if strings.HasPrefix(arg, "-") {
+			args = append([]string{arg, os.Args[index+1]}, args...)
+		} else if index > 0 && ! strings.HasPrefix(os.Args[index-1], "-") {
+			args = append(args, arg)
+		}
+	}
+
+	os.Args = append([]string{os.Args[0]}, args...)
 	flag.StringVar(&icon, "i", icon, "Path to icon")
 	flag.String("u", "", "")
 	flag.String("a", "", "")
@@ -30,7 +43,7 @@ func main() {
 	// TODO: https://github.com/guard/guard/blob/19351271941a3362a47176c6808ddcb4a675e3ad/lib/guard/notifiers/notifysend.rb#L15
 	flag.Parse()
 
-	args := flag.Args()
+	args = flag.Args()
 	argsLength := len(args)
 
 	if argsLength > 2 || argsLength < 1 {
