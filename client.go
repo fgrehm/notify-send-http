@@ -15,13 +15,30 @@ import (
 )
 
 var (
-	icon, summary, body = "", "", ""
+	icon, summary, body, notificationServer = "", "", "", ""
 )
 
 func main() {
-	notificationServer := "http://172.17.42.1:12345"
+	notificationServer = "http://172.17.42.1:12345"
 	// route -n | awk '/^0.0.0.0/ {print $2}'
 
+	args := parseFlags()
+	argsLength := len(args)
+
+	if argsLength > 2 || argsLength < 1 {
+		fmt.Println("Invalid number of options")
+		os.Exit(1)
+	}
+
+	summary = args[0]
+	if argsLength == 2 {
+		body = args[1]
+	}
+
+	triggerNotification(summary, body)
+}
+
+func parseFlags() []string {
 	// This is required because the Guard notifier sends custom parameters at the end of the command,
 	// so here we need to reorganize things
 	args := []string{}
@@ -43,19 +60,10 @@ func main() {
 	// TODO: https://github.com/guard/guard/blob/19351271941a3362a47176c6808ddcb4a675e3ad/lib/guard/notifiers/notifysend.rb#L15
 	flag.Parse()
 
-	args = flag.Args()
-	argsLength := len(args)
+	return flag.Args()
+}
 
-	if argsLength > 2 || argsLength < 1 {
-		fmt.Println("Invalid number of options")
-		os.Exit(1)
-	}
-
-	summary = args[0]
-	if argsLength == 2 {
-		body = args[1]
-	}
-
+func triggerNotification(summary, body string) {
 	if icon != "" {
 		notification := map[string]string{
 			"summary": summary,
