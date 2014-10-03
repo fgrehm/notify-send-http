@@ -19,8 +19,11 @@ var (
 )
 
 func main() {
-	notificationServer = "http://172.17.42.1:12345"
-	// route -n | awk '/^0.0.0.0/ {print $2}'
+	notificationServer = os.Getenv("NOTIFY_SEND_URL")
+	if notificationServer == "" {
+		fmt.Println("NOTIFY_SEND_URL is not set!")
+		os.Exit(1)
+	}
 
 	args := parseFlags()
 	argsLength := len(args)
