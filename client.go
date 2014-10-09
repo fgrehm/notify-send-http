@@ -12,10 +12,12 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"strconv"
 )
 
 var (
 	icon, summary, body, notificationServer = "", "", "", ""
+	timeout = -1
 )
 
 func main() {
@@ -58,7 +60,7 @@ func parseFlags() []string {
 	flag.String("u", "", "")
 	flag.String("a", "", "")
 	flag.String("c", "", "")
-	flag.String("t", "", "")
+	flag.IntVar(&timeout, "t", timeout, "Time to expire notification (milliseconds)")
 	flag.String("h", "", "")
 	// TODO: https://github.com/guard/guard/blob/19351271941a3362a47176c6808ddcb4a675e3ad/lib/guard/notifiers/notifysend.rb#L15
 	flag.Parse()
@@ -71,6 +73,7 @@ func triggerNotification(summary, body string) {
 		notification := map[string]string{
 			"summary": summary,
 			"body":    body,
+			"timeout": strconv.Itoa(timeout),
 		}
 		request, err := newfileUploadRequest(notificationServer, notification, "icon", icon)
 		if err != nil {
@@ -85,6 +88,7 @@ func triggerNotification(summary, body string) {
 		_, err := http.PostForm(notificationServer, url.Values{
 			"summary": {summary},
 			"body":    {body},
+			"timeout": {strconv.Itoa(timeout)},
 		})
 		if err != nil {
 			log.Fatal(err)

@@ -30,6 +30,7 @@ func main() {
 
 		summary := r.Form.Get("summary")
 		body := r.Form.Get("body")
+		timeout := r.Form.Get("timeout")
 
 		if summary == "" {
 			msg := fmt.Sprintf("Invalid request, `summary` has to be specified (got %+v)", r.Form)
@@ -68,7 +69,7 @@ func main() {
 		msg := "`notify-send` should have been triggered"
 		fmt.Fprintln(w, msg)
 		log.Println(msg)
-		notifySend(summary, body, iconPath)
+		notifySend(summary, body, iconPath, timeout)
 	})
 	http.HandleFunc("/favicon.ico", func(w http.ResponseWriter, r *http.Request) {
 		// Nothing to do here
@@ -77,10 +78,13 @@ func main() {
 	log.Fatal(http.ListenAndServe(":12345", nil))
 }
 
-func notifySend(summary, body, iconPath string) {
+func notifySend(summary, body, iconPath, timeout string) {
 	args := []string{summary, body}
 	if iconPath != "" {
 		args = append([]string{"-i", iconPath}, args...)
+	}
+	if timeout != "" {
+		args = append([]string{"-t", timeout}, args...)
 	}
 	cmd := exec.Command("notify-send", args...)
 	_, err := cmd.CombinedOutput()
