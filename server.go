@@ -12,6 +12,12 @@ import (
 )
 
 func main() {
+	port := os.Getenv("PORT")
+	if port == "" {
+		fmt.Println("PORT has not been set!")
+		os.Exit(1)
+	}
+
 	// TODO: https://github.com/guard/guard/blob/19351271941a3362a47176c6808ddcb4a675e3ad/lib/guard/notifiers/notifysend.rb#L15
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		log.Println("Handling request")
@@ -74,8 +80,9 @@ func main() {
 	http.HandleFunc("/favicon.ico", func(w http.ResponseWriter, r *http.Request) {
 		// Nothing to do here
 	})
-	log.Println("Starting server for http://0.0.0.0:12345")
-	log.Fatal(http.ListenAndServe(":12345", nil))
+
+	log.Println("Starting server for http://0.0.0.0:" + port)
+	log.Fatal(http.ListenAndServe(":" + port, nil))
 }
 
 func notifySend(summary, body, iconPath, timeout string) {
