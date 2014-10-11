@@ -12,7 +12,7 @@ if [ -x /usr/bin/notify-send ]; then
   exit 0
 fi
 
-curl -L https://github.com/fgrehm/notify-send-http/releases/download/v0.1.0/client | sudo tee /usr/bin/notify-send &>/dev/null
+curl -sL https://github.com/fgrehm/notify-send-http/releases/download/v0.1.0/client | sudo tee /usr/bin/notify-send &>/dev/null
 sudo chmod +x /usr/bin/notify-send
 
 cat <<-STR >> /home/vagrant/.bashrc
