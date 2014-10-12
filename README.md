@@ -4,7 +4,9 @@ Trigger `notify-send` across the network using HTTP, useful for triggering
 notifications from local VMs / Containers into your own computer. It even supports
 notification icons!
 
-_Tested on Ubuntu 14.04 only_
+![demo](http://i.imgur.com/51hGcuW.png)
+
+**_Tested on Ubuntu 14.04 only_**
 
 ## Why?
 
@@ -114,7 +116,9 @@ curl -sL https://github.com/fgrehm/notify-send-http/releases/download/v0.1.0/cli
 docker run -ti --rm \
            -e NOTIFY_SEND_URL="http://${DOCKER_BRIDGE_IP}:12345" \
            -v /tmp/notify-send:/usr/bin/notify-send \
-           ubuntu:14.04 /usr/bin/notify-send "Hello docker" "It Works!"
+           -v `pwd`/success.png:/tmp/success.png \
+           ubuntu:14.04 \
+           /usr/bin/notify-send "Hello docker" "It Works!" -i /tmp/success.png
 ```
 
 ### [Vagrant](http://www.vagrantup.com/)
