@@ -93,6 +93,15 @@ func notifySend(summary, body, iconPath, timeout string) {
 	if timeout != "" {
 		args = append([]string{"-t", timeout}, args...)
 	}
+	// Try notify-send 
+	_, err := exec.LookPath("notify-send")
+	cmd := exec.Command("notify-send", args...)
+	if err != nil {
+		// Try OSX terminal-notifier
+		args = []string{"-title", summary, "-message", body}
+		cmd = exec.Command("terminal-notifier", args...)
+	}
+	_, err = cmd.CombinedOutput()
 	cmd := exec.Command("notify-send", args...)
 	_, err := cmd.CombinedOutput()
 	if err != nil {
