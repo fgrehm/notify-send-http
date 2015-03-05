@@ -28,7 +28,7 @@ will get displayed and drop it somewhere on your `PATH`.
 For example, if `$HOME/bin` is on your `PATH`:
 
 ```sh
-curl -L https://github.com/fgrehm/notify-send-http/releases/download/v0.1.0/server > $HOME/bin/notify-send-server
+curl -L https://github.com/fgrehm/notify-send-http/releases/download/v0.2.0/server-linux_amd64 > $HOME/bin/notify-send-server
 chmod +x $HOME/bin/notify-send-server
 ```
 
@@ -62,7 +62,7 @@ From another machine / VM / Linux Container you'll have to first download the
 client somewhere on the `PATH`:
 
 ```sh
-curl -L https://github.com/fgrehm/notify-send-http/releases/download/v0.1.0/client | sudo tee /usr/local/bin/notify-send &>/dev/null
+curl -L https://github.com/fgrehm/notify-send-http/releases/download/v0.2.0/client-linux_amd64 | sudo tee /usr/local/bin/notify-send &>/dev/null
 sudo chmod +x /usr/local/bin/notify-send
 ```
 
@@ -88,7 +88,7 @@ Download the client to a folder under `$HOME/devstep/bin`:
 ```sh
 DEVSTEP_DIR="$HOME/devstep/bin"
 mkdir -p $DEVSTEP_DIR
-curl -sL https://github.com/fgrehm/notify-send-http/releases/download/v0.1.0/client > $DEVSTEP_DIR/notify-send
+curl -sL https://github.com/fgrehm/notify-send-http/releases/download/v0.2.0/client-linux_amd64 > $DEVSTEP_DIR/notify-send
 chmod +x $DEVSTEP_DIR/notify-send
 ```
 
@@ -110,7 +110,7 @@ environment:
 DOCKER_BRIDGE_IP=$(/sbin/ifconfig docker0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}')
 
 # Download binary
-curl -sL https://github.com/fgrehm/notify-send-http/releases/download/v0.1.0/client > /tmp/notify-send && chmod +x /tmp/notify-send
+curl -sL https://github.com/fgrehm/notify-send-http/releases/download/v0.2.0/client-linux_amd64 > /tmp/notify-send && chmod +x /tmp/notify-send
 
 # Start container ready to send notifications
 docker run -ti --rm \
