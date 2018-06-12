@@ -6,6 +6,10 @@ notification icons!
 
 ![demo](http://i.imgur.com/51hGcuW.png)
 
+## :warning: Unmaintained :warning:
+
+This project is no longer maintained, please reach out to me if you are interested in continuing working on it.
+
 **_Tested on Ubuntu 14.04 only_**
 
 ## Why?
